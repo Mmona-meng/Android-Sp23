@@ -12,13 +12,23 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
 
     private Button clickyButton;
+    private Button linkCollectorButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Button button = findViewById(R.id.aboutMeButton);
         clickyButton = findViewById(R.id.clickyButton);
+        linkCollectorButton = findViewById(R.id.linkCollectorButton);
+        linkCollectorButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, LinkListActivity.class);
+                startActivity(intent);
+            }
+        });
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
