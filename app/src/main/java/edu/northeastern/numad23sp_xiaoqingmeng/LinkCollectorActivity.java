@@ -33,22 +33,23 @@ public class LinkCollectorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_link_collector);
 
+        // create RecyclerView and Adapter
         linkRecyclerView = findViewById(R.id.recycler_view);
-        adapter = new LinkAdapter(this, linkList);
+        adapter = new LinkAdapter(linkList);
         linkRecyclerView.setAdapter(adapter);
         linkRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        addButton = findViewById(R.id.add_button);
 
+        // define add button
+        addButton = findViewById(R.id.add_button);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showLinkEntryDialog();
             }
         });
-
-        //constraintLayout = findViewById(R.id.constraint_layout);
     }
 
+    // create EditText after click add button
     private void showLinkEntryDialog() {
         final EditText nameEditText = new EditText(this);
         nameEditText.setHint("Name");
@@ -75,6 +76,7 @@ public class LinkCollectorActivity extends AppCompatActivity {
                 .show();
     }
 
+    // add the user input into the list and show a snackbar
     private void addLink(String name, String url) {
         Link link = new Link(name, url);
         linkList.add(link);

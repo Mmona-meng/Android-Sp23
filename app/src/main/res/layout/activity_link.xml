@@ -32,7 +32,6 @@
             android:id="@+id/item_url"
             android:text="@string/item_url" />
 
-
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

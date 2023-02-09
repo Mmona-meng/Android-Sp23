@@ -1,6 +1,7 @@
 package edu.northeastern.numad23sp_xiaoqingmeng;
 
-public class Link {
+public class Link{
+
     private String name;
     private String url;
 
