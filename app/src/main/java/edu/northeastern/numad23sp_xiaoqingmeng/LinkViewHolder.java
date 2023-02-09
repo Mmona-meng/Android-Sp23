@@ -9,20 +9,20 @@ public class LinkViewHolder extends RecyclerView.ViewHolder {
     public TextView nameTextView;
     public TextView urlTextView;
 
-    public LinkViewHolder(View itemView, final ItemClickListener listener) {
+    public LinkViewHolder(View itemView, final LinkAdapter.LinkClickListener listener) {
         super(itemView);
         nameTextView = itemView.findViewById(R.id.item_name);
         urlTextView = itemView.findViewById(R.id.item_url);
 
         itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (listener != null) {
-                            int position = getAdapterPosition();
-                            if (position != RecyclerView.NO_POSITION) {
-                                listener.onItemClick(position); //TODO link?
-                            }
-                        }
+            @Override
+            public void onClick(View v) {
+                if (listener != null) {
+                    int position = getLayoutPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        listener.onLinkClick(position);
+                    }
+                }
             }
         });
     }

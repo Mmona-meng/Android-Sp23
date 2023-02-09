@@ -1,99 +1,148 @@
 package edu.northeastern.numad23sp_xiaoqingmeng;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class LinkCollectorActivity extends AppCompatActivity {
 
-    private ArrayList<Link> linkList = new ArrayList<>();
+    private ArrayList<Link> linkItemList;
+    private AlertDialog inputAlertDialog;
 
+    private EditText linkName;
+    private EditText linkUrl;
     private RecyclerView linkRecyclerView;
-    private LinkAdapter adapter;
-    private FloatingActionButton addButton;
-    private ConstraintLayout constraintLayout;
+    private LinkAdapter linkCollectorViewAdapter;
+
+    private static final String KEY_OF_INSTANCE = "KEY_OF_INSTANCE";
+    private static final String NUMBER_OF_ITEMS = "NUMBER_OF_ITEMS";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_link_collector);
 
-        // create RecyclerView and Adapter
+        linkItemList = new ArrayList<>();
+
+        init(savedInstanceState);
+
+        FloatingActionButton addButton = findViewById(R.id.add_button);
+        addButton.setOnClickListener(view -> addLink());
+
+        createInputAlertDialog();
+        createRecyclerView();
+        linkCollectorViewAdapter.setOnLinkClickListener(position -> linkItemList.get(position).onItemClick(this));
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getLayoutPosition();
+                linkItemList.remove(position);
+                linkCollectorViewAdapter.notifyDataSetChanged();
+            }
+        });
+        itemTouchHelper.attachToRecyclerView(linkRecyclerView);
+    }
+
+    //Handling Orientation Changes on Android
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        int size = linkItemList == null? 0 : linkItemList.size();
+        outState.putInt(NUMBER_OF_ITEMS, size);
+
+        //Need to generate unique key for each item
+        for(int i=0; i<size; i++){
+            outState.putString(KEY_OF_INSTANCE + i+ "0", linkItemList.get(i).getName());
+            outState.putString(KEY_OF_INSTANCE + i+ "1", linkItemList.get(i).getUrl());
+        }
+        super.onSaveInstanceState(outState);
+    }
+
+    private void init(Bundle savedInstanceState) {
+        initialItemData(savedInstanceState);
+        createRecyclerView();
+    }
+
+    private void initialItemData(Bundle savedInstanceState){
+
+        if(savedInstanceState != null && savedInstanceState.containsKey(NUMBER_OF_ITEMS)){
+            if(linkItemList == null || linkItemList.size() == 0){
+                int size = savedInstanceState.getInt(NUMBER_OF_ITEMS);
+
+                for(int i=0; i<size; i++){
+                    String name = savedInstanceState.getString(KEY_OF_INSTANCE+i+"0");
+                    String url = savedInstanceState.getString(KEY_OF_INSTANCE+i+"1");
+
+                    Link link = new Link(name, url);
+                    linkItemList.add(link);
+                }
+            }
+        }
+    }
+
+    public void createRecyclerView() {
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         linkRecyclerView = findViewById(R.id.recycler_view);
-        adapter = new LinkAdapter(linkList);
-        linkRecyclerView.setAdapter(adapter);
-        linkRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        linkRecyclerView.setHasFixedSize(true);
+        linkCollectorViewAdapter = new LinkAdapter(linkItemList);
 
-        // define add button
-        addButton = findViewById(R.id.add_button);
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showLinkEntryDialog();
-            }
-        });
+        linkRecyclerView.setAdapter(linkCollectorViewAdapter);
+        linkRecyclerView.setLayoutManager(layoutManager);
     }
 
-    // create EditText after click add button
-    private void showLinkEntryDialog() {
-        final EditText nameEditText = new EditText(this);
-        nameEditText.setHint("Name");
-        final EditText urlEditText = new EditText(this);
-        urlEditText.setHint("URL");
-        LinearLayout linearLayout = new LinearLayout(this);
-        linearLayout.setOrientation(LinearLayout.VERTICAL);
-        linearLayout.addView(nameEditText);
-        linearLayout.addView(urlEditText);
+    public void createInputAlertDialog() {
+        LayoutInflater layoutInflater = LayoutInflater.from(this);
+        View view = layoutInflater.inflate(R.layout.activity_link_input, null);
 
-        new AlertDialog.Builder(this)
-                .setTitle("Add Link")
-                .setView(linearLayout)
-                .setPositiveButton("Add", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String name = nameEditText.getText().toString();
-                        String url = urlEditText.getText().toString();
-                        addLink(name, url);
-                    }
-                })
-                .setNegativeButton("Cancel", null)
-                .create()
-                .show();
+        linkName = view.findViewById(R.id.link_name_input);
+        linkUrl = view.findViewById(R.id.link_url_input);
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setView(view);
+
+        alertDialogBuilder
+                .setCancelable(false)
+                .setPositiveButton(getString(R.string.Add),
+                        (dialog, id) -> {
+                            Link linkItem = new Link(linkName.getText().toString(), linkUrl.getText().toString());
+                            if (linkItem.isValid()) {
+                                linkItemList.add(0, linkItem);
+                                linkCollectorViewAdapter.notifyDataSetChanged();
+                                Snackbar.make(linkRecyclerView, getString(R.string.link_add_success), Snackbar.LENGTH_LONG).show();
+                            } else {
+                                Snackbar.make(linkRecyclerView, getString(R.string.link_invalid), Snackbar.LENGTH_LONG).show();
+                            }
+                        })
+                .setNegativeButton(getString(R.string.Cancel),
+                        (dialog, id) -> dialog.cancel());
+
+        inputAlertDialog = alertDialogBuilder.create();
     }
 
-    // add the user input into the list and show a snackbar
-    private void addLink(String name, String url) {
-        Link link = new Link(name, url);
-        linkList.add(link);
-        adapter.notifyDataSetChanged();
-
-        Snackbar snackbar = Snackbar.make(constraintLayout, "Link added successfully!", Snackbar.LENGTH_LONG);
-        snackbar.setAction("Undo", new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                linkList.remove(link);
-                adapter.notifyDataSetChanged();
-                Snackbar undoSnackbar = Snackbar.make(constraintLayout, "Link removed!", Snackbar.LENGTH_SHORT);
-                undoSnackbar.show();
-            }
-        });
-        snackbar.show();
+    // add the user input into the list and show a snack-bar
+    private void addLink() {
+        linkName.getText().clear();
+        linkUrl.setText(getString(R.string.Http));
+        linkName.requestFocus();
+        inputAlertDialog.show();
     }
-
 }
 
