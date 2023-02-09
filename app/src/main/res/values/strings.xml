@@ -8,4 +8,7 @@
     <string name="link_invalid">Invalid URL.</string>
     <string name="Cancel">Cancel</string>
     <string name="Http">http://</string>
+    <string name="link_details">Enter Link Details</string>
+    <string name="link_name">Name:</string>
+    <string name="link_url">URL:</string>
 </resources>

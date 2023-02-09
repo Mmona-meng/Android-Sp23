@@ -85,16 +85,14 @@ public class LinkCollectorActivity extends AppCompatActivity {
 
         if(savedInstanceState != null && savedInstanceState.containsKey(NUMBER_OF_ITEMS)){
             if(linkItemList == null || linkItemList.size() == 0){
-
                 int size = savedInstanceState.getInt(NUMBER_OF_ITEMS);
 
                 for(int i=0; i<size; i++){
                     String name = savedInstanceState.getString(KEY_OF_INSTANCE+i+"0");
                     String url = savedInstanceState.getString(KEY_OF_INSTANCE+i+"1");
 
-                    Link unit = new Link(name, url);
-
-                    linkItemList.add(unit);
+                    Link link = new Link(name, url);
+                    linkItemList.add(link);
                 }
             }
         }
@@ -112,10 +110,10 @@ public class LinkCollectorActivity extends AppCompatActivity {
 
     public void createInputAlertDialog() {
         LayoutInflater layoutInflater = LayoutInflater.from(this);
-        View view = layoutInflater.inflate(R.layout.activity_link, null);
+        View view = layoutInflater.inflate(R.layout.activity_link_input, null);
 
-        linkName = view.findViewById(R.id.item_name);
-        linkUrl = view.findViewById(R.id.item_url);
+        linkName = view.findViewById(R.id.link_name_input);
+        linkUrl = view.findViewById(R.id.link_url_input);
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setView(view);
@@ -139,7 +137,7 @@ public class LinkCollectorActivity extends AppCompatActivity {
         inputAlertDialog = alertDialogBuilder.create();
     }
 
-    // add the user input into the list and show a snackbar
+    // add the user input into the list and show a snack-bar
     private void addLink() {
         linkName.getText().clear();
         linkUrl.setText(getString(R.string.Http));
