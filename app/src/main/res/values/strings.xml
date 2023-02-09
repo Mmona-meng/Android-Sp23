@@ -3,4 +3,9 @@
     <string name="button_text">About me</string>
     <string name="item_name">Name</string>
     <string name="item_url">URL</string>
+    <string name="Add">Add</string>
+    <string name="link_add_success">Link add successfully</string>
+    <string name="link_invalid">Invalid URL.</string>
+    <string name="Cancel">Cancel</string>
+    <string name="Http">http://</string>
 </resources>
