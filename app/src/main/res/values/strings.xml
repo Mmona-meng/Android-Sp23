@@ -11,4 +11,8 @@
     <string name="link_details">Enter Link Details</string>
     <string name="link_name">Name:</string>
     <string name="link_url">URL:</string>
+    <string name="convert_name">Xiaoqing Meng</string>
+    <string name="convert_email">meng.xiaoq@northeastern.edu</string>
+    <string name="aboutMeName">Xiaoqing Meng</string>
+    <string name="aboutMeEmail">meng.xiaoq@northeastern.edu</string>
 </resources>

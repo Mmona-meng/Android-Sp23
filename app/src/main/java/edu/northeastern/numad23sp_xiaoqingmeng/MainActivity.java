@@ -35,9 +35,11 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String message = "Name: Xiaoqing Meng Email: meng.xiaoq@northeastern.edu";
+                /*String message = "Name: Xiaoqing Meng Email: meng.xiaoq@northeastern.edu";
                 Log.v("About Me", "Button clicked!");
-                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();*/
+                Intent intent = new Intent(MainActivity.this, AboutMeActivity.class);
+                startActivity(intent);
             }
         });
 
