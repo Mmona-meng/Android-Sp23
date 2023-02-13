@@ -14,6 +14,7 @@ public class MainActivity extends AppCompatActivity {
     private Button button;
     private Button clickyButton;
     private Button linkCollectorButton;
+    private Button primeButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +24,15 @@ public class MainActivity extends AppCompatActivity {
         button = findViewById(R.id.aboutMeButton);
         clickyButton = findViewById(R.id.clickyButton);
         linkCollectorButton = findViewById(R.id.linkCollectorButton);
+        primeButton = findViewById(R.id.primeFinderButton);
+
+        primeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, PrimeActivity.class);
+                startActivity(intent);
+            }
+        });
 
         linkCollectorButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -35,9 +45,6 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*String message = "Name: Xiaoqing Meng Email: meng.xiaoq@northeastern.edu";
-                Log.v("About Me", "Button clicked!");
-                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();*/
                 Intent intent = new Intent(MainActivity.this, AboutMeActivity.class);
                 startActivity(intent);
             }

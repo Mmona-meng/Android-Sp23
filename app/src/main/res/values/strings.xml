@@ -15,4 +15,10 @@
     <string name="convert_email">meng.xiaoq@northeastern.edu</string>
     <string name="aboutMeName">Xiaoqing Meng</string>
     <string name="aboutMeEmail">meng.xiaoq@northeastern.edu</string>
+    <string name="prime_finder">Prime Finder</string>
+    <string name="find_prime">Find Prime</string>
+    <string name="terminate_search">Terminate Search</string>
+    <string name="pacifier_switch">Pacifier Switch</string>
+    <string name="current_number">current number is:</string>
+    <string name="latest_prime_found">Latest Prime Found is:</string>
 </resources>

@@ -13,6 +13,9 @@
         android:theme="@style/Theme.NUMAD23Sp_XiaoqingMeng"
         tools:targetApi="31">
         <activity
+            android:name=".PrimeActivity"
+            android:exported="false" />
+        <activity
             android:name=".AboutMeActivity"
             android:exported="false" />
         <activity
