@@ -26,4 +26,5 @@
     <string name="current_longitude">Current Longitude:</string>
     <string name="unknown">Unknown</string>
     <string name="reset">Reset</string>
+    <string name="distance">Distance:</string>
 </resources>

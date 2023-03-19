@@ -57,6 +57,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.057"
         app:layout_constraintStart_toEndOf="@+id/longitude_label"
+
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.427" />
 
@@ -64,7 +65,7 @@
         android:id="@+id/distance_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Distance:"
+        android:text="@string/distance"
         android:fontFamily="sans-serif-black"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintBottom_toBottomOf="parent"
