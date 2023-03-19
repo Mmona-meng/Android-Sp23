@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -27,10 +28,6 @@ public class PrimeActivity extends AppCompatActivity {
     private Handler handler;
 
     private static final String TAG = "MainActivity";
-/*    private static final String KEY_PRIME_FOUND = "prime_found";
-    private static final String KEY_CURRENT_NUMBER = "current_number";
-    private static final String KEY_SEARCH_RUNNING = "search_running";
-    private static final String KEY_SWITCH_CHECKED = "switch_checked";*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,9 +43,12 @@ public class PrimeActivity extends AppCompatActivity {
         handler = new Handler();
 
         if (savedInstanceState != null) {
+            Log.d(TAG,"_________------onRestoreInstanceState");
             currentNumber = savedInstanceState.getInt("currentNumber");
             latestPrime = savedInstanceState.getInt("latestPrime");
             pacifier.setChecked(savedInstanceState.getBoolean("isPacifierOn"));
+            currentNumberView.setText(String.valueOf(currentNumber));
+            latestPrimeView.setText(String.valueOf(latestPrime));
         }
         findPrimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,11 +61,12 @@ public class PrimeActivity extends AppCompatActivity {
 
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
-
+        super.onSaveInstanceState(outState);
+        Log.d(TAG,"_________------onSaveInstanceState");
         outState.putInt("currentNumber", currentNumber);
         outState.putInt("latestPrime", latestPrime);
+        Log.e(TAG,"PutInt" + outState.getInt("currentNumber") + currentNumber);
         outState.putBoolean("isPacifierOn", pacifier.isChecked());
-        super.onSaveInstanceState(outState);
     }
 
     public void onTerminateSearchClick(View view) {

@@ -19,6 +19,11 @@
     <string name="find_prime">Find Prime</string>
     <string name="terminate_search">Terminate Search</string>
     <string name="pacifier_switch">Pacifier Switch</string>
-    <string name="current_number">current number is:</string>
-    <string name="latest_prime_found">Latest Prime Found is:</string>
+    <string name="current_number">Current number being checked:</string>
+    <string name="latest_prime_found">Latest prime found:</string>
+    <string name="location">Location</string>
+    <string name="latitude">Current Latitude:</string>
+    <string name="current_longitude">Current Longitude:</string>
+    <string name="unknown">Unknown</string>
+    <string name="reset">Reset</string>
 </resources>

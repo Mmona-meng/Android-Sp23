@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
     private Button clickyButton;
     private Button linkCollectorButton;
     private Button primeButton;
+    private Button locationButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +26,15 @@ public class MainActivity extends AppCompatActivity {
         clickyButton = findViewById(R.id.clickyButton);
         linkCollectorButton = findViewById(R.id.linkCollectorButton);
         primeButton = findViewById(R.id.primeFinderButton);
+        locationButton = findViewById(R.id.locationButton);
 
+        locationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, LocationActivity.class);
+                startActivity(intent);
+            }
+        });
         primeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
